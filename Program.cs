@@ -31,6 +31,7 @@ namespace CodingTracker2
             /* Once we check if the database exists and create it (or not),
             we will call the next method, which will handle the user's input. Your next step is to create this method*/
             //GetUserInput();
+            CodingController.MainMenu();
         }
     }
     
