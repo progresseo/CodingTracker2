@@ -6,11 +6,12 @@ namespace CodingTracker2
 {
     class CodingSession
     {
-        //after I have the user input 
-        
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
 
-        
-
+        public string Duration { get; set; }
 
     }
 }

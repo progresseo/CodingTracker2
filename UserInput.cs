@@ -66,10 +66,10 @@ namespace CodingTracker2
 
         }
 
-        public static string DurationCalculator()
+        public static string DurationCalculator(string startTime, string endTime)
         {
-            var convertedStartTime = DateTime.Parse(GetStartTime());
-            var convertedEndTime = DateTime.Parse(GetEndTime());
+            var convertedStartTime = DateTime.Parse(startTime);
+            var convertedEndTime = DateTime.Parse(endTime);
             TimeSpan difference = convertedEndTime - convertedStartTime;
             string duration = string.Format("{0} hours, {1} minues",  difference.Hours, difference.Minutes);
             Console.WriteLine(duration);

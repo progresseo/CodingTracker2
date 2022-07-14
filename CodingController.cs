@@ -33,11 +33,11 @@ namespace CodingTracker2
                     case "1":
                         //Console.WriteLine("testing");
                         //UserInput.GetStartTime();
-                        UserInput.DurationCalculator();
-                       // CreateEntry();
+                        //UserInput.DurationCalculator();
+                       ActionController.CreateEntry();
                         break;
                     case "2":
-                        //DisplayAll();
+                        ActionController.DisplayAll();
                         break;
                     case "3":
                        // Delete();

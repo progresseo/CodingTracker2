@@ -19,7 +19,9 @@ namespace CodingTracker2
                         @"CREATE TABLE IF NOT EXISTS TrackerDatabase (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     Date TEXT unique,
-                    Duration INTEGER
+                    StartTime TEXT,
+                    EndTime TEXT,
+                    Duration TEXT
                     )";
 
                     // Executing the command, which isn't a query, it's not asking to return data from the database.

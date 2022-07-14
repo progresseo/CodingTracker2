@@ -7,8 +7,10 @@ To use this appconfig in program.cs, you need to install the configuration manag
 https://www.youtube.com/watch?v=2JUI_qAgiJo&ab_channel=IAmTimCorey
 DateOnly and TimeOnly instaed of DateTime
 DateTime has timezones 
+But this is only for .net 6 sadly 
 
-Need to figure out a way to get the time difference to display in hours and mminutes and not just hours.
+
+
 
 
 
