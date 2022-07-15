@@ -72,13 +72,11 @@ namespace CodingTracker2
                                 Duration = reader.GetString(4)
                             });
                     }
-
                 }
                 else
                 {
                     Console.WriteLine("No entries found");
                 }
-
                 connection.Close();
 
                 ConsoleTableBuilder
@@ -86,11 +84,75 @@ namespace CodingTracker2
                     .WithFormat(ConsoleTableBuilderFormat.Alternative)
                     .ExportAndWriteLine(TableAligntment.Center);
 
-                foreach (var item in tableData)
+                //foreach (var item in tableData)
+               //{
+                   // Console.WriteLine($"Id: {item.Id} Date:{item.Date.ToString("dd MMMM yyyy")} StartTime:{item.StartTime.ToString("HH:mm")} EndTime:{item.EndTime.ToString("HH:mm")} Duration: {item.Duration}");
+
+                //} 
+            }
+        }
+        public static void Delete()
+        {
+            Console.Clear();
+            DisplayAll();
+            var recordID = UserInput.GetRecordId("Please enter the record Id you want to delete or enter 0 to return to main menu.");
+            using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
+            {
+
+                using (var tableCmd = connection.CreateCommand())
                 {
-                    Console.WriteLine($"Id: {item.Id} Date:{item.Date.ToString("dd MMMM yyyy")} StartTime:{item.StartTime.ToString("HH:mm")} EndTime:{item.EndTime.ToString("HH:mm")} Duration: {item.Duration}");
+                    connection.Open();
+
+                    tableCmd.CommandText =
+                        $"DELETE from TrackerDatabase WHERE Id = '{recordID}'";
+
+                    int rowCount = tableCmd.ExecuteNonQuery();
+                    if (rowCount == 0)
+                    {
+                        Console.WriteLine($"Record with id {recordID} doesn't exist");
+                        Delete();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Record has been deleted");
+                    }
 
                 }
+
+            }
+        }
+        public static void Update()
+        {
+
+            DisplayAll();
+            int recordID = UserInput.GetRecordId("Please enter the record Id you want to update or enter 0 to return to main menu.");
+            using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
+            {
+
+                var tableCmd = connection.CreateCommand();
+
+                connection.Open();
+
+                tableCmd.CommandText =
+                    $"SELECT * from TrackerDatabase WHERE Id = {recordID}";
+
+                int checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar());
+                if (checkQuery == 0)
+                {
+                    Console.WriteLine("Record Id doesn't exist");
+                    connection.Close();
+                    Update();
+                }
+
+                string date = UserInput.GetDateInput();
+                string start = UserInput.GetStartTime();
+                string end = UserInput.GetEndTime();
+                string duration = UserInput.DurationCalculator(start, end);
+                tableCmd.CommandText =
+                    $"UPDATE TrackerDatabase SET Date = '{date}', StartTime = '{start}' , EndTime = '{end}', Duration = '{duration}' WHERE ID = {recordID}";
+
+                tableCmd.ExecuteNonQuery();
+                connection.Close();
 
 
 

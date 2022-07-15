@@ -37,12 +37,12 @@ namespace CodingTracker2
         }
         public static string GetStartTime()
         {
-            Console.WriteLine("Please enter the start time in format HH:mm e.g 01:20 Enter 0 for main menu");
+            Console.WriteLine("Enter Start time in format HH:mm e.g 01:20 Enter 0 for main menu");
             string startTimeInput = Console.ReadLine();
             if (startTimeInput == "0") CodingController.MainMenu();
             while (!DateTime.TryParseExact(startTimeInput, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                Console.WriteLine("Please enter the start time in format HH:mm e.g 02:30 which is 2 hours and 30minutes");
+                Console.WriteLine("Enter Start Time in format HH:mm e.g 02:30 which is 2 hours and 30 minutes");
                 startTimeInput = Console.ReadLine();
 
             }
@@ -52,12 +52,12 @@ namespace CodingTracker2
         }
         public static string GetEndTime()
         {
-            Console.WriteLine("Please enter the end time in format HH:mm e.g 01:20 Enter 0 for main menu");
+            Console.WriteLine("Enter End Time in format HH:mm e.g 01:20 Enter 0 for main menu");
             string endTimeInput = Console.ReadLine();
             if (endTimeInput == "0") CodingController.MainMenu();
             while (!DateTime.TryParseExact(endTimeInput, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
             {
-                Console.WriteLine("Please enter the end time in format HH:mm e.g 02:30 which is 2 hours and 30minutes");
+                Console.WriteLine("Enter End Time in format HH:mm e.g 02:30 which is 2 hours and 30 minutes");
                 endTimeInput = Console.ReadLine();
 
             }

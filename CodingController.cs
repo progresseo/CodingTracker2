@@ -40,10 +40,10 @@ namespace CodingTracker2
                         ActionController.DisplayAll();
                         break;
                     case "3":
-                       // Delete();
+                       ActionController.Delete();
                         break;
                     case "4":
-                       // Update();
+                        ActionController.Update();
                         break;
                     default:
                         Console.WriteLine("Please ensure to enter a number between 1 to 4.");
