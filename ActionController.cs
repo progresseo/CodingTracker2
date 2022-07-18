@@ -93,7 +93,6 @@ namespace CodingTracker2
         }
         public static void Delete()
         {
-            Console.Clear();
             DisplayAll();
             var recordID = UserInput.GetRecordId("Please enter the record Id you want to delete or enter 0 to return to main menu.");
             using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
@@ -109,7 +108,8 @@ namespace CodingTracker2
                     int rowCount = tableCmd.ExecuteNonQuery();
                     if (rowCount == 0)
                     {
-                        Console.WriteLine($"Record with id {recordID} doesn't exist");
+                        Console.Clear();
+                        Console.WriteLine($"*****Record with id {recordID} doesn't exist*****");
                         Delete();
                     }
                     else
