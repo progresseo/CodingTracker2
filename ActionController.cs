@@ -10,12 +10,12 @@ namespace CodingTracker2
 {
     class ActionController
     {
-        public static void CreateEntry()
+        public static void Add(CodingSession session)
         {
-            string date = UserInput.GetDateInput();
-            string start = UserInput.GetStartTime();
-            string end = UserInput.GetEndTime();
-            string duration = UserInput.DurationCalculator(start, end);
+            //string date = UserInput.GetDateInput();
+            //string start = UserInput.GetStartTime();
+            //string end = UserInput.GetEndTime();
+            //string duration = UserInput.DurationCalculator(start, end);
             using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
             {
 
@@ -24,7 +24,7 @@ namespace CodingTracker2
                     connection.Open();
 
                     tableCmd.CommandText =
-                        $"INSERT INTO TrackerDatabase (Date, StartTime, EndTime, Duration) VALUES('{date}','{start}','{end}','{duration}')";
+                        $"INSERT INTO TrackerDatabase (Date, StartTime, EndTime, Duration) VALUES('{session.Date}','{session.StartTime}','{session.EndTime}','{session.Duration}')";
                     try
                     {
 
@@ -65,10 +65,10 @@ namespace CodingTracker2
                             new CodingSession
                             {
                                 Id = reader.GetInt32(0),
-                                Date = DateTime.ParseExact(reader.GetString(1), "dd MMMM yyyy", CultureInfo.InvariantCulture),
+                                Date = reader.GetString(1),
 
-                                StartTime = DateTime.ParseExact(reader.GetString(2), "HH:mm", CultureInfo.InvariantCulture),
-                                EndTime = DateTime.ParseExact(reader.GetString(3), "HH:mm", CultureInfo.InvariantCulture),
+                                StartTime = reader.GetString(2),
+                                EndTime = reader.GetString(3),
                                 Duration = reader.GetString(4)
                             });
                     }
@@ -91,10 +91,8 @@ namespace CodingTracker2
                 //} 
             }
         }
-        public static void Delete()
+        public static void Remove(int recordId)
         {
-            DisplayAll();
-            var recordID = UserInput.GetRecordId("Please enter the record Id you want to delete or enter 0 to return to main menu.");
             using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
             {
 
@@ -103,14 +101,14 @@ namespace CodingTracker2
                     connection.Open();
 
                     tableCmd.CommandText =
-                        $"DELETE from TrackerDatabase WHERE Id = '{recordID}'";
+                        $"DELETE from TrackerDatabase WHERE Id = '{recordId}'";
 
                     int rowCount = tableCmd.ExecuteNonQuery();
                     if (rowCount == 0)
                     {
                         Console.Clear();
-                        Console.WriteLine($"*****Record with id {recordID} doesn't exist*****");
-                        Delete();
+                        Console.WriteLine($"*****Record with id {recordId} doesn't exist*****");
+                       
                     }
                     else
                     {
@@ -121,11 +119,9 @@ namespace CodingTracker2
 
             }
         }
-        public static void Update()
+        public static void UpdateCheck(int recordId)
         {
 
-            DisplayAll();
-            int recordID = UserInput.GetRecordId("Please enter the record Id you want to update or enter 0 to return to main menu.");
             using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
             {
 
@@ -134,22 +130,36 @@ namespace CodingTracker2
                 connection.Open();
 
                 tableCmd.CommandText =
-                    $"SELECT * from TrackerDatabase WHERE Id = {recordID}";
+                    $"SELECT * from TrackerDatabase WHERE Id = {recordId}";
 
                 int checkQuery = Convert.ToInt32(tableCmd.ExecuteScalar());
                 if (checkQuery == 0)
                 {
                     Console.WriteLine("Record Id doesn't exist");
                     connection.Close();
-                    Update();
                 }
 
-                string date = UserInput.GetDateInput();
-                string start = UserInput.GetStartTime();
-                string end = UserInput.GetEndTime();
-                string duration = UserInput.DurationCalculator(start, end);
+                
+
+
+            }
+        }
+        public static void Update(CodingSession session)
+        {
+
+            using (var connection = new SqliteConnection(ConfigurationManager.ConnectionStrings["database"].ConnectionString))
+            {
+
+                var tableCmd = connection.CreateCommand();
+
+                connection.Open();
+
                 tableCmd.CommandText =
-                    $"UPDATE TrackerDatabase SET Date = '{date}', StartTime = '{start}' , EndTime = '{end}', Duration = '{duration}' WHERE ID = {recordID}";
+                    $"SELECT * from TrackerDatabase WHERE Id = {session.Id}";
+
+
+                tableCmd.CommandText =
+                    $"UPDATE TrackerDatabase SET Date = '{session.Date}', StartTime = '{session.StartTime}' , EndTime = '{session.EndTime}', Duration = '{session.Duration}' WHERE ID = {session.Id}";
 
                 tableCmd.ExecuteNonQuery();
                 connection.Close();

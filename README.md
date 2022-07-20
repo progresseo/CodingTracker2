@@ -9,6 +9,9 @@ DateOnly and TimeOnly instaed of DateTime
 DateTime has timezones 
 But this is only for .net 6 sadly 
 
+Passing objects 
+https://www.youtube.com/watch?v=_JJwHXZcE4Y&ab_channel=tips%27ntricks
+
 
 
 
