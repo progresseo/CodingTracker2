@@ -13,10 +13,7 @@ namespace CodingTracker2
 
         public string Duration { get; set; }
 
-        //public CodingSession(DateTime Date, DateTime StarTime, DateTime EndTime, string Duration)
-        //{
-
-        //}
+        
 
 
     }
